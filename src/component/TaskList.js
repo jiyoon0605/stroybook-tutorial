@@ -7,7 +7,14 @@ import { archiveTask, pinTask } from "../lib/redux";
 
 export function PureTaskList({
   loading,
-  tasks = [],
+  tasks = [
+    {
+      id: "1",
+      title: "Task 1",
+      state: "TASK_INBOX",
+      updatedAt: new Date(),
+    },
+  ],
   onPinTask,
   onArchiveTask,
 }) {
@@ -77,9 +84,11 @@ PureTaskList.defaultProp = {
 
 export default connect(
   ({ task }) => ({
-    task: task.filter(
-      (t) => (t.state === "TASK_INBOX") | (t.state === "TASK_PINNED")
-    ),
+    task:
+      task &&
+      task.filter(
+        (t) => (t.state === "TASK_INBOX") | (t.state === "TASK_PINNED")
+      ),
   }),
   (dispatch) => ({
     onArchiveTask: (id) => dispatch(archiveTask(id)),
